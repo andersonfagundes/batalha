@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import com.google.gson.Gson;
+import br.edu.infnet.service.BatalhaService;
 
 @RestController
 @RequestMapping("/api/batalha")
@@ -20,34 +20,35 @@ public class BatalhaController {
 	
 	@Autowired
 	RestTemplate restTemplate; 
+	
+	@Autowired
+	BatalhaService batalhaService;
     
     @GetMapping(value = "/iniciativa", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Map<String, Object>> getStart(@RequestParam(name = "idHero") Integer idHero,
+	public ResponseEntity<Map<String, Object>> start(@RequestParam(name = "idHero") Integer idHero,
 																@RequestParam(name = "agilityHero") Integer agilityHero,
 																@RequestParam(name = "idMonster") Integer idMonster,
 																@RequestParam(name = "agilityMonster") Integer agilityMonster) {
     	
-    	int type = 10;
-    	int amount = 1;
+    	
+    	
+    	String firstPlayer = batalhaService.start(agilityHero, agilityMonster);
     	
     	try {
-    		
-    		int resultDice = 0;
-	    	int resultHero = 0;
-	    	int resultMonster = 0;
-	    	boolean hasResult = false;
-
-	    	do {
-    			
-    			resultDice = getResultRollDices(type, amount);
-    			
-    			resultHero = resultDice + agilityHero;
-    			resultMonster = resultDice + agilityMonster;
-
-    			if ((resultHero > resultMonster) || (resultMonster > resultHero)) hasResult = true;
-
-			} while (!hasResult);
-    		    		
+//    		
+//    		
+//
+//	    	do {
+//    			
+//    			resultDice = batalhaService.getResultRollDices(type, amount);
+//    			
+//    			resultHero = resultDice + agilityHero;
+//    			resultMonster = resultDice + agilityMonster;
+//
+//    			if ((resultHero > resultMonster) || (resultMonster > resultHero)) hasResult = true;
+//
+//			} while (!hasResult);
+//    		    		
     		String resultDices = "1";
     		
     		Map<String, Object> payload = new HashMap<>();
@@ -59,23 +60,5 @@ public class BatalhaController {
     	}
 		
 	}
-    
-    public Integer getResultRollDices(Integer type, Integer amount) {
-    	
-    	//RestTemplate restTemplate = new RestTemplate();
-		String forObject = restTemplate.getForObject("http://DICE-API/api/rolldices?type="+type+"&amount="+amount, String.class);
-		
-		Gson gson = new Gson();
-    
-		String resultDices = gson.toJson(forObject);
-		int result;
-		
-		if(resultDices.substring(13,14).equals("}")) {
-			result = Integer.parseInt(resultDices.substring(12,13));
-		} else{
-			result = Integer.parseInt(resultDices.substring(12,14));
-		} 
-    	
-    	return result;
-    }
+   
 }
