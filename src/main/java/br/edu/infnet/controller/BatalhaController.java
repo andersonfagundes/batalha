@@ -1,5 +1,7 @@
 package br.edu.infnet.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,14 +27,16 @@ public class BatalhaController {
 	BatalhaService batalhaService;
     
     @GetMapping(value = "/iniciativa", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Map<String, Object>> start(@RequestParam(name = "idHero") Integer idHero,
+	public ResponseEntity<Map<String, Object>> iniciativa(@RequestParam(name = "idHero") Integer idHero,
 																@RequestParam(name = "agilityHero") Integer agilityHero,
 																@RequestParam(name = "idMonster") Integer idMonster,
 																@RequestParam(name = "agilityMonster") Integer agilityMonster) {
     	
     	
     	
-    	String firstPlayer = batalhaService.start(agilityHero, agilityMonster);
+    	String firstPlayer = batalhaService.getFirstPlayer(agilityHero, agilityMonster);
+
+    	batalhaService.saveStart(idHero, idMonster, firstPlayer);
     	
     	try {
     		String resultDices = "2";

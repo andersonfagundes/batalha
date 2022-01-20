@@ -6,13 +6,22 @@ import org.springframework.web.client.RestTemplate;
 
 import com.google.gson.Gson;
 
+import br.edu.infnet.model.Batalha;
+import br.edu.infnet.repository.BatalhaRepository;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 @Service
 public class BatalhaService {
 
     @Autowired
     RestTemplate restTemplate;
+    
+    @Autowired
+    BatalhaRepository batalhaRepository;
 
-    public String start(Integer agilityHero, Integer agilityMonster) {
+    public String getFirstPlayer(Integer agilityHero, Integer agilityMonster) {
 
         int type = 10;
         int amount = 1;
@@ -55,6 +64,17 @@ public class BatalhaService {
         }
 
         return result;
+    }
+
+    public void saveStart(Integer idHero, Integer idMonster, String firstPlayer){
+
+        Date dateNow = new Date();
+        String data = new SimpleDateFormat("yyyy-MM-dd").format(dateNow);
+        String hour = new SimpleDateFormat("HH:mm:ss").format(dateNow);
+
+        String dateTimeNow = data+" "+hour;
+
+    	batalhaRepository.saveStart(idHero, idMonster, firstPlayer, dateTimeNow);
     }
 
 }
