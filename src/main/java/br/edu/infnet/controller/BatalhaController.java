@@ -35,21 +35,7 @@ public class BatalhaController {
     	String firstPlayer = batalhaService.start(agilityHero, agilityMonster);
     	
     	try {
-//    		
-//    		
-//
-//	    	do {
-//    			
-//    			resultDice = batalhaService.getResultRollDices(type, amount);
-//    			
-//    			resultHero = resultDice + agilityHero;
-//    			resultMonster = resultDice + agilityMonster;
-//
-//    			if ((resultHero > resultMonster) || (resultMonster > resultHero)) hasResult = true;
-//
-//			} while (!hasResult);
-//    		    		
-    		String resultDices = "1";
+    		String resultDices = "2";
     		
     		Map<String, Object> payload = new HashMap<>();
     		payload.put("value", resultDices);
