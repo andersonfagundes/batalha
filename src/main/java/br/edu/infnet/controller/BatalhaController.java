@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,24 +26,32 @@ public class BatalhaController {
 	
 	@Autowired
 	BatalhaService batalhaService;
+
+	@Autowired
+	CircuitBreakerFactory circuitBreakerFactory;
     
     @GetMapping(value = "/iniciativa", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Map<String, Object>> iniciativa(@RequestParam(name = "idHero") Integer idHero,
 																@RequestParam(name = "agilityHero") Integer agilityHero,
 																@RequestParam(name = "idMonster") Integer idMonster,
 																@RequestParam(name = "agilityMonster") Integer agilityMonster) {
-    	
-    	
-    	
-    	String firstPlayer = batalhaService.getFirstPlayer(agilityHero, agilityMonster);
 
-    	batalhaService.saveStart(idHero, idMonster, firstPlayer);
-    	
-    	try {
-    		String resultDices = "2";
+		try {
+
+			org.springframework.cloud.client.circuitbreaker.CircuitBreaker
+			circuitBreaker = circuitBreakerFactory.create("rollDicesCB");
+
+			String firstPlayer = circuitBreaker.run( () -> batalhaService.getFirstPlayer(agilityHero, agilityMonster),
+					throwable -> batalhaService.getFirstPlayerFallback());
+
+			//String firstPlayer = batalhaService.getFirstPlayer(agilityHero, agilityMonster);
+
+			batalhaService.saveStart(idHero, idMonster, firstPlayer);
+
+    		//String resultDices = "2";
     		
     		Map<String, Object> payload = new HashMap<>();
-    		payload.put("value", resultDices);
+    		payload.put("firstPlayer", firstPlayer);
     		
     		return ResponseEntity.ok(payload);
     	} catch(IllegalArgumentException ex) {

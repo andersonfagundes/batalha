@@ -77,4 +77,8 @@ public class BatalhaService {
     	batalhaRepository.saveStart(idHero, idMonster, firstPlayer, dateTimeNow);
     }
 
+    public String getFirstPlayerFallback(){
+        return "heroi";
+    }
+
 }
