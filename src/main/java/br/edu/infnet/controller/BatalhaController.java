@@ -44,7 +44,7 @@ public class BatalhaController {
 			String firstPlayer = circuitBreaker.run( () -> batalhaService.getFirstPlayer(agilityHero, agilityMonster),
 					throwable -> batalhaService.getFirstPlayerFallback());
 
-			batalhaService.saveStart(idHero, idMonster, firstPlayer);
+			batalhaService.saveBattle(idHero, idMonster, firstPlayer);
 			
 			String winner = null;
 			winner = this.batalha(idHero, idMonster, firstPlayer);

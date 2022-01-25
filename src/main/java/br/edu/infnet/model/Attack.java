@@ -3,6 +3,9 @@ package br.edu.infnet.model;
 import lombok.*;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Date;
 
 @Data
@@ -12,7 +15,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Entity
 @Table(name = "attack")
-public class Atack {
+public class Attack {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,4 +25,9 @@ public class Atack {
     private Integer pdvHero;
     private Integer pdvMonster;
     private Date date_time;
+    
+    @ManyToOne
+	@JsonIgnore
+	@JoinColumn(name = "id_battle")
+	private Battle battle;
 }

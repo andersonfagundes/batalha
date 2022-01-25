@@ -6,7 +6,6 @@ import org.springframework.web.client.RestTemplate;
 
 import com.google.gson.Gson;
 
-import br.edu.infnet.model.Start;
 import br.edu.infnet.repository.BatalhaRepository;
 
 import java.text.SimpleDateFormat;
@@ -66,7 +65,7 @@ public class BatalhaService {
         return result;
     }
 
-    public void saveStart(Integer idHero, Integer idMonster, String firstPlayer){
+    public void saveBattle(Integer idHero, Integer idMonster, String firstPlayer){
 
         Date dateNow = new Date();
         String data = new SimpleDateFormat("yyyy-MM-dd").format(dateNow);
@@ -74,7 +73,9 @@ public class BatalhaService {
 
         String dateTimeNow = data+" "+hour;
 
-    	batalhaRepository.saveStart(idHero, idMonster, firstPlayer, dateTimeNow);
+    	batalhaRepository.saveBattle(idHero, idMonster, firstPlayer, dateTimeNow);
+
+
     }
 
     public String getFirstPlayerFallback(){
@@ -84,13 +85,13 @@ public class BatalhaService {
     public String getBattle(int idHero, int idMonster, String firstPlayer) {
     	//Buscar os dados dos herois e monstros nos microservicos
     	//Guerreiro
-    	int pVHero = 4;
+    	int pVHero = 12;
     	int forceHero = 4;
     	int defenseHero = 3;
     	int agilityHero = 3;
 
     	//Morto-Vivo
-    	int pVMonster = 5;
+    	int pVMonster = 25;
     	int forceMonster = 4;
     	int defenseMonster = 0;
     	int agilityMonster = 1;
@@ -182,7 +183,9 @@ public class BatalhaService {
 
         String dateTimeNow = data+" "+hour;
 
-        batalhaRepository.saveAttack(idHero, idMonster, pdvHero, pdvMonster, dateTimeNow);
+        int idBattle = batalhaRepository.lastIdStart().intValue();
+
+        batalhaRepository.saveAttack(idHero, idMonster, pdvHero, pdvMonster, idBattle, dateTimeNow);
     }
 
 }

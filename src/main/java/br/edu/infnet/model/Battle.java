@@ -1,16 +1,16 @@
 package br.edu.infnet.model;
 
 import lombok.*;
-import org.bouncycastle.asn1.cms.TimeStampAndCRL;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import java.text.DateFormat;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Getter
@@ -18,8 +18,8 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "start")
-public class Start {
+@Table(name = "battle")
+public class Battle {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,4 +28,7 @@ public class Start {
     private Integer id_monster;
     private String firstPlayer;
     private Date date_time;
+    
+    @OneToMany(mappedBy = "battle")
+	private List<Attack> attacks;
 }
