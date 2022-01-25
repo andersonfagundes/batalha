@@ -6,7 +6,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.google.gson.Gson;
 
-import br.edu.infnet.model.Batalha;
+import br.edu.infnet.model.Start;
 import br.edu.infnet.repository.BatalhaRepository;
 
 import java.text.SimpleDateFormat;

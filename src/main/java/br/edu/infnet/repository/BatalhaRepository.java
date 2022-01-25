@@ -5,13 +5,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import br.edu.infnet.model.Batalha;
+import br.edu.infnet.model.Start;
 
 import javax.transaction.Transactional;
 import java.util.Date;
 
 @Repository
-public interface BatalhaRepository extends CrudRepository<Batalha, Long> {
+public interface BatalhaRepository extends CrudRepository<Start, Long> {
 	
 	@Modifying
     @Transactional
