@@ -183,7 +183,7 @@ public class BatalhaService {
 
         String dateTimeNow = data+" "+hour;
 
-        int idBattle = batalhaRepository.lastIdStart().intValue();
+        int idBattle = batalhaRepository.lastIdBattle().intValue();
 
         batalhaRepository.saveAttack(idHero, idMonster, pdvHero, pdvMonster, idBattle, dateTimeNow);
     }

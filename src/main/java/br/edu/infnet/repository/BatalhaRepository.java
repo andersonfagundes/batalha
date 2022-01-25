@@ -24,6 +24,6 @@ public interface BatalhaRepository extends CrudRepository<Battle, Long> {
 
     @Transactional
     @Query(value = "SELECT MAX(id) as id FROM battle", nativeQuery = true)
-    public Long lastIdStart();
+    public Long lastIdBattle();
 
 }
