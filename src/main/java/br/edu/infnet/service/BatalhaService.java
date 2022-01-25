@@ -84,17 +84,19 @@ public class BatalhaService {
     public String getBattle(int idHero, int idMonster, String firstPlayer) {
     	//Buscar os dados dos herois e monstros nos microservicos
     	//Guerreiro
-    	int pVHero = 12;
+    	int pVHero = 4;
     	int forceHero = 4;
     	int defenseHero = 3;
     	int agilityHero = 3;
-    	
+
     	//Morto-Vivo
-    	int pVMonster = 25;
+    	int pVMonster = 5;
     	int forceMonster = 4;
     	int defenseMonster = 0;
     	int agilityMonster = 1;
-    	
+
+        saveAttack(idHero, idMonster, pVHero, pVMonster);
+
     	do {
 
     		int resultHero, resultMonster;
@@ -108,6 +110,7 @@ public class BatalhaService {
 	    			//Calculo do dano do monstro
 	    			if(resultHero > resultMonster) {
 	    				pVMonster = getDemage(2, 4, pVMonster);
+                        saveAttack(idHero, idMonster, pVHero, pVMonster);
 	    			}
     			}
     			
@@ -119,6 +122,7 @@ public class BatalhaService {
         			//Calculo do dano do heroi
         			if(resultMonster > resultHero) {
         				pVHero = getDemage(2, 4, pVHero);
+                        saveAttack(idHero, idMonster, pVHero, pVMonster);
         			}
     			}
     		}
@@ -131,6 +135,7 @@ public class BatalhaService {
         			//Calculo do dano do heroi
         			if(resultMonster > resultHero) {
         				pVHero = getDemage(2, 4, pVHero);
+                        saveAttack(idHero, idMonster, pVHero, pVMonster);
         			}
     			}
     			if(pVHero > 0) {
@@ -141,6 +146,7 @@ public class BatalhaService {
 	    			//Calculo do dano do monstro
 	    			if(resultHero > resultMonster) {
 	    				pVMonster = getDemage(2, 4, pVMonster);
+                        saveAttack(idHero, idMonster, pVHero, pVMonster);
 	    			}
     			}
     		}
@@ -166,6 +172,17 @@ public class BatalhaService {
     public Integer getDemage(int amount, int type, int pDV) {
     	int resultRollDices = getResultRollDices(type,amount);
         return pDV - resultRollDices;
+    }
+
+    public void saveAttack(Integer idHero, Integer idMonster, Integer pdvHero, Integer pdvMonster){
+
+        Date dateNow = new Date();
+        String data = new SimpleDateFormat("yyyy-MM-dd").format(dateNow);
+        String hour = new SimpleDateFormat("HH:mm:ss").format(dateNow);
+
+        String dateTimeNow = data+" "+hour;
+
+        batalhaRepository.saveAttack(idHero, idMonster, pdvHero, pdvMonster, dateTimeNow);
     }
 
 }

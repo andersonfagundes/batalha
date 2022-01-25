@@ -19,6 +19,7 @@ public class Atack {
     private Long id;
     private Integer id_hero;
     private Integer id_monster;
-    private Integer pdv;
+    private Integer pdvHero;
+    private Integer pdvMonster;
     private Date date_time;
 }
