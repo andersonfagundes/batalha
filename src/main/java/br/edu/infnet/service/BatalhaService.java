@@ -80,5 +80,92 @@ public class BatalhaService {
     public String getFirstPlayerFallback(){
         return "heroi";
     }
+    
+    public String getBattle(int idHero, int idMonster, String firstPlayer) {
+    	//Buscar os dados dos herois e monstros nos microservicos
+    	//Guerreiro
+    	int pVHero = 12;
+    	int forceHero = 4;
+    	int defenseHero = 3;
+    	int agilityHero = 3;
+    	
+    	//Morto-Vivo
+    	int pVMonster = 25;
+    	int forceMonster = 4;
+    	int defenseMonster = 0;
+    	int agilityMonster = 1;
+    	
+    	do {
+
+    		int resultHero, resultMonster;
+    		
+    		if(firstPlayer == "hero") {
+    			if(pVHero > 0) {
+	    			//Ataque do heroi e defesa do monstro
+	    			resultHero = getAttack(agilityHero, forceHero);
+	    			resultMonster = getDefense(agilityMonster, defenseMonster);
+	    			
+	    			//Calculo do dano do monstro
+	    			if(resultHero > resultMonster) {
+	    				pVMonster = getDemage(2, 4, pVMonster);
+	    			}
+    			}
+    			
+    			if(pVMonster > 0) {
+    				//Ataque do monstro e defesa do heroi
+        			resultMonster = getAttack(agilityMonster, forceMonster);
+        			resultHero = getDefense(agilityHero, defenseHero);
+        			
+        			//Calculo do dano do heroi
+        			if(resultMonster > resultHero) {
+        				pVHero = getDemage(2, 4, pVHero);
+        			}
+    			}
+    		}
+    		else {
+    			if(pVMonster > 0) {
+    				//Ataque do monstro e defesa do heroi
+        			resultMonster = getAttack(agilityMonster, forceMonster);
+        			resultHero = getDefense(agilityHero, defenseHero);
+        			
+        			//Calculo do dano do heroi
+        			if(resultMonster > resultHero) {
+        				pVHero = getDemage(2, 4, pVHero);
+        			}
+    			}
+    			if(pVHero > 0) {
+	    			//Ataque do heroi e defesa do monstro
+	    			resultHero = getAttack(agilityHero, forceHero);
+	    			resultMonster = getDefense(agilityMonster, defenseMonster);
+	    			
+	    			//Calculo do dano do monstro
+	    			if(resultHero > resultMonster) {
+	    				pVMonster = getDemage(2, 4, pVMonster);
+	    			}
+    			}
+    		}
+    	} while((pVHero > 0) && (pVMonster > 0));
+    	
+    	if(pVHero > 0) {
+    		return "hero";
+    	}
+    	
+    	return "monster";
+    }
+    
+    public Integer getAttack(int agility, int force) {
+        int resultRollDices = getResultRollDices(10,1);
+    	return  resultRollDices + agility + force;
+    }
+    
+    public Integer getDefense(int agility, int defense) {
+    	int resultRollDices = getResultRollDices(10,1);
+        return resultRollDices + agility + defense;
+    }
+    
+    public Integer getDemage(int amount, int type, int pDV) {
+    	int resultRollDices = getResultRollDices(type,amount);
+        return pDV - resultRollDices;
+    }
 
 }

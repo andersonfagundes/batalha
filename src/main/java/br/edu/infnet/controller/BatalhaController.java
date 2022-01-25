@@ -44,14 +44,16 @@ public class BatalhaController {
 			String firstPlayer = circuitBreaker.run( () -> batalhaService.getFirstPlayer(agilityHero, agilityMonster),
 					throwable -> batalhaService.getFirstPlayerFallback());
 
-			//String firstPlayer = batalhaService.getFirstPlayer(agilityHero, agilityMonster);
-
 			batalhaService.saveStart(idHero, idMonster, firstPlayer);
-
-    		//String resultDices = "2";
+			
+			String winner = null;
+			winner = this.batalha(idHero, idMonster, firstPlayer);
     		
-    		Map<String, Object> payload = new HashMap<>();
-    		payload.put("firstPlayer", firstPlayer);
+//    		Map<String, Object> payload = new HashMap<>();
+//    		payload.put("firstPlayer", firstPlayer);
+			
+			Map<String, Object> payload = new HashMap<>();
+			payload.put("winner", winner);
     		
     		return ResponseEntity.ok(payload);
     	} catch(IllegalArgumentException ex) {
@@ -59,5 +61,13 @@ public class BatalhaController {
     	}
 		
 	}
-   
+    
+    @GetMapping(value = "/ataque")
+	public String batalha(Integer idHero, Integer idMonster, String firstPlayer){
+
+			String winner = null;
+	    	return winner = batalhaService.getBattle(idHero, idMonster, firstPlayer);
+	    
+    }
+  
 }
