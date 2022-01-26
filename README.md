@@ -16,3 +16,7 @@ idMonster = id do monstro
 agilityMonster = valor da agilidade do monstro
 
 É necessário que os serviços configServer, eurekaServer e rolldice estejam iniciados antes de iniciar este serviço.
+
+Para acessar a documentação criada pelo swagger, é necessário digitar o seguinte endereço após inicializar o projeto:
+http://localhost:57294/swagger-ui/index.html
+Obs: a porta deverá ser trocada para a porta em que o projeto inicializado, pois a porta usada é aleatória
