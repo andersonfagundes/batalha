@@ -79,7 +79,7 @@ public class BatalhaService {
     }
 
     public String getFirstPlayerFallback(){
-        return "heroi";
+        return "hero";
     }
     
     public String getBattle(int idHero, int idMonster, String firstPlayer) {
